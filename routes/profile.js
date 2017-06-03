@@ -152,11 +152,16 @@ router.get('/getAllMatchByPlayerName/:ign', function(req,res,next){
       matches.scoreDetail = {win:0, lose:0};
       matches.match.map(e=>{
         e.playerMatch = {};
+        e.side = null;
         // e.playedHeroes = [];
+
         e.matchRoster.forEach(each=>{
+
           each.rosterParticipants.forEach(player=>{
+
             if(player.participantPlayer.data.attributes.name == playerNames){
               e.playerMatch = player;
+              e.side = each.data.attributes.stats.side;
               if(player.data.attributes.stats.winner){
                 matches.scoreDetail.win += 1;
               }else{
