@@ -150,6 +150,8 @@ router.get('/getAllMatchByPlayerName/:ign', function(req,res,next){
       matches.playedHeroes = [];
       matches.playedHeroesGrouped = {};
       matches.scoreDetail = {win:0, lose:0};
+      matches.totalSide = {blue:0,red:0};
+
       matches.match.map(e=>{
         e.playerMatch = {};
         e.side = null;
@@ -162,11 +164,22 @@ router.get('/getAllMatchByPlayerName/:ign', function(req,res,next){
             if(player.participantPlayer.data.attributes.name == playerNames){
               e.playerMatch = player;
               e.side = each.data.attributes.stats.side;
-              if(player.data.attributes.stats.winner){
-                matches.scoreDetail.win += 1;
+              if(each.data.attributes.stats.side == "left/blue"){
+                matches.totalSide.blue += 1;
+                if(player.data.attributes.stats.winner){
+                  matches.scoreDetail.win += 1;
+                }else{
+                  matches.scoreDetail.lose += 1;
+                }
               }else{
-                matches.scoreDetail.lose += 1;
+                matches.totalSide.red += 1;
+                if(player.data.attributes.stats.winner){
+                  matches.scoreDetail.win += 1;
+                }else{
+                  matches.scoreDetail.lose += 1;
+                }
               }
+
               matches.playedHeroes.push(player.data.attributes.actor);
             }
           })
