@@ -2,9 +2,17 @@ var express = require('express');
 var router = express.Router();
 var http = require('http');
 var Vainglory = require('vainglory');
+var firebase = require('firebase');
+// require('firebase/auth');
+// require('firebase/database');
 // Load the full build.
 const _ = require('lodash');
 const request = require('request');
+const fb = firebase.initializeApp({
+    databaseURL: 'https://halcyonity-55c5d.firebaseio.com',
+    serviceAccount: '../google-services.json', //this is file that I downloaded from Firebase Console
+});
+
 
 const options = {
   host: 'https://api.dc01.gamelockerapp.com/shards/',
@@ -265,15 +273,24 @@ router.get('/getAllMatch', function(req,res,next){
 });
 
 
-router.get('/getPlayerByName/:ign', function(req, res, next){
+router.get('/getPlayerByName/:ign/:deviceId', function(req, res, next){
+
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     const playerNames = [req.params.ign];
+    const deviceId = [req.params.deviceId];
 
+    var ref = fb.database().ref("/email");
+    ref.once("value")
+      .then(function(snapshot) {
+      console.log(snapshot.val());
+
+    });
     vainglory.players.getByName(playerNames).then((player) => {
       if (player.errors) return;
-      console.log(player.id);
-      console.log(player.stats);
+
+      fb.database().ref('/users/' + deviceId).set(player);
+      // console.log(player.stats);
       res.send(player);
     }).catch((errors) => {
       console.log(errors);

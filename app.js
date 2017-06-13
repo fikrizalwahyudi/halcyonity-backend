@@ -11,6 +11,9 @@ var profile = require('./routes/profile');
 var path = require('path');
 var timeout = require('connect-timeout');
 
+var firebase = require('firebase');
+
+
 var app = express();
 
 // view engine setup
@@ -26,6 +29,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(timeout('5s'));
+
+
 
 // app.use('/', index);
 // app.use('/users', users);

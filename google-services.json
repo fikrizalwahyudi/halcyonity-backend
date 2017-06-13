@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "853971124522",
+    "firebase_url": "https://halcyonity-55c5d.firebaseio.com",
+    "project_id": "halcyonity-55c5d",
+    "storage_bucket": "halcyonity-55c5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:853971124522:android:eb08d65c005d2379",
+        "android_client_info": {
+          "package_name": "com.halcyonity.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "853971124522-elasqt1u3atklvekt6n9capqbek62t0s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnj59WuP_k5u-qqOmMheFnF-cSH15vzsM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
