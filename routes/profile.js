@@ -280,12 +280,12 @@ router.get('/getPlayerByName/:ign/:deviceId', function(req, res, next){
     const playerNames = [req.params.ign];
     const deviceId = [req.params.deviceId];
 
-    var ref = fb.database().ref("/email");
-    ref.once("value")
-      .then(function(snapshot) {
-      console.log(snapshot.val());
-
-    });
+    // var ref = fb.database().ref("/email");
+    // ref.once("value")
+    //   .then(function(snapshot) {
+    //   console.log(snapshot.val());
+    //
+    // });
     vainglory.players.getByName(playerNames).then((player) => {
       if (player.errors) return;
 
