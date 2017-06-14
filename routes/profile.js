@@ -299,6 +299,32 @@ router.get('/getPlayerByName/:ign/:deviceId', function(req, res, next){
     });
 });
 
+router.get('/getPlayerByName/:ign', function(req, res, next){
+
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    const playerNames = [req.params.ign];
+    // const deviceId = [req.params.deviceId];
+
+    // var ref = fb.database().ref("/email");
+    // ref.once("value")
+    //   .then(function(snapshot) {
+    //   console.log(snapshot.val());
+    //
+    // });
+    vainglory.players.getByName(playerNames).then((player) => {
+      if (player.errors) return;
+
+      fb.database().ref('/users/oldVersion').set(player);
+      fb.database().ref('/players/' + playerNames).set(player);
+      // console.log(player.stats);
+      res.send(player);
+    }).catch((errors) => {
+      console.log(errors);
+      res.send(errors);
+    });
+});
+
 
 
 module.exports = router;
