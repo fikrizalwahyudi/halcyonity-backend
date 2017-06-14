@@ -290,7 +290,7 @@ router.get('/getPlayerByName/:ign/:deviceId', function(req, res, next){
       if (player.errors) return;
 
       fb.database().ref('/users/' + deviceId).set(player);
-      fb.database().ref('/players/' + player).set(player);
+      fb.database().ref('/players/' + playerNames).set(player);
       // console.log(player.stats);
       res.send(player);
     }).catch((errors) => {
