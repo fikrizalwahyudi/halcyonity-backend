@@ -28,7 +28,7 @@ const listHeroes = ["ringo", "gwen", "baptiste",
                     "ozo","petal","reim",
                     "rona","taka","adagio",
                     "ardan","catherine","flicker","fortress",
-                    "lance","lyra","phinn"];
+                    "lance","lyra","phinn", "grace"];
 
 const heroes = [];
 heroes["ringo"] = "Carry";
@@ -63,6 +63,7 @@ heroes["fortress"] = "Captain";
 heroes["lance"] = "Captain";
 heroes["lyra"] = "Captain";
 heroes["phinn"] = "Captain";
+heroes["grace"] = "Captain";
 
 const vainglory = new Vainglory('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjNDZjMjBiMC1kY2RiLTAxMzQtNWUwMC0wMjQyYWMxMTAwMDQiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNDg3OTUzNTI0LCJwdWIiOiJzZW1jIiwidGl0bGUiOiJ2YWluZ2xvcnkiLCJhcHAiOiJjNDZhNjBmMC1kY2RiLTAxMzQtNWRmZi0wMjQyYWMxMTAwMDQiLCJzY29wZSI6ImNvbW11bml0eSIsImxpbWl0IjoxMH0.WS7uFSYlDnFALFN5CgEY7kYeBQskl1I9qRsmdpNxhH0', options);
 
@@ -98,6 +99,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/getMatchById', function(req,res,next){
+
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
@@ -110,11 +112,12 @@ router.get('/getMatchById', function(req,res,next){
 });
 
 router.get('/getPlayerByName', function(req, res, next){
+
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     const playerNames = ['volkerz'];
 
-    vainglory.players.getByName(playerNames).then((player) => {
+    vainglory.region('sg').players.getByName(playerNames).then((player) => {
       if (player.errors) return;
       console.log(player.id);
       console.log(player.stats);
@@ -124,10 +127,15 @@ router.get('/getPlayerByName', function(req, res, next){
     });
 });
 
-router.get('/getAllMatchByPlayerName/:ign', function(req,res,next){
+
+router.get('/getAllMatchByPlayerName/:ign/:server', function(req,res,next){
+
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+
     const playerNames = [req.params.ign];
+    const server = [req.params.server];
     var now = new Date();
     var minus3Hours = new Date(new Date() * 1 - 1000 * 3600 * 368);
 
@@ -146,7 +154,7 @@ router.get('/getAllMatchByPlayerName/:ign', function(req,res,next){
       },
     };
 
-    vainglory.matches.collection(queryOptions).then((matches) => {
+    vainglory.region(server[0]).matches.collection(queryOptions).then((matches) => {
       if (matches.errors) {
         // return console.log(matches);
         res.send(matches);
@@ -163,6 +171,7 @@ router.get('/getAllMatchByPlayerName/:ign', function(req,res,next){
       matches.match.map(e=>{
         e.playerMatch = {};
         e.side = null;
+
         // e.playedHeroes = [];
 
         e.matchRoster.forEach(each=>{
@@ -239,6 +248,7 @@ router.get('/getAllMatchByPlayerName/:ign', function(req,res,next){
 });
 
 router.get('/getAllMatch', function(req,res,next){
+
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     var now = new Date();
@@ -273,12 +283,17 @@ router.get('/getAllMatch', function(req,res,next){
 });
 
 
-router.get('/getPlayerByName/:ign/:deviceId', function(req, res, next){
+router.get('/getPlayerByName/:ign/:deviceId/:server', function(req, res, next){
+
 
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     const playerNames = [req.params.ign];
     const deviceId = [req.params.deviceId];
+    const server = [req.params.server];
+    console.log(server[0]);
+    console.log(playerNames[0]);
+    console.log(deviceId[0]);
 
     // var ref = fb.database().ref("/email");
     // ref.once("value")
@@ -286,11 +301,11 @@ router.get('/getPlayerByName/:ign/:deviceId', function(req, res, next){
     //   console.log(snapshot.val());
     //
     // });
-    vainglory.players.getByName(playerNames).then((player) => {
+    vainglory.region(server[0]).players.getByName(playerNames).then((player) => {
       if (player.errors) return;
 
-      fb.database().ref('/users/' + deviceId).set(player);
-      fb.database().ref('/players/' + playerNames).set(player);
+      fb.database().ref('/users/' + deviceId[0]).set(player);
+      fb.database().ref('/players/' + playerNames[0]).set(player);
       // console.log(player.stats);
       res.send(player);
     }).catch((errors) => {
