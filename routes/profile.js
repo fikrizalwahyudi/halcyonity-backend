@@ -247,6 +247,125 @@ router.get('/getAllMatchByPlayerName/:ign/:server', function(req,res,next){
 
 });
 
+router.get('/getAllMatchByPlayerName/:ign', function(req,res,next){
+
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+
+    const playerNames = [req.params.ign];
+    // const server = [req.params.server];
+    var now = new Date();
+    var minus3Hours = new Date(new Date() * 1 - 1000 * 3600 * 368);
+
+    /* defaults */
+    var queryOptions = {
+      page: {
+        offset: 0,
+        limit: 50,
+      },
+      sort: '-createdAt', // -createdAt for reverse
+      filter: {
+        'createdAt-start': minus3Hours.toISOString(), // ISO Date
+        'createdAt-end': now.toISOString(), // ISO Date
+        playerNames: [playerNames],
+        teamNames: [],
+      },
+    };
+
+    vainglory.region('sg').matches.collection(queryOptions).then((matches) => {
+      if (matches.errors) {
+        // return console.log(matches);
+        res.send(matches);
+      }
+      // console.log(matches);
+      // console.log(matches.data.length);
+      // console.log(" first data " , matches.data[0].attributes.createdAt);
+      // console.log(" last data " , matches.data[ (matches.data.length - 1 )].attributes.createdAt);
+      matches.playedHeroes = [];
+      matches.playedHeroesGrouped = {};
+      matches.scoreDetail = {win:0, lose:0};
+      matches.totalSide = {blue:0,red:0};
+
+      matches.match.map(e=>{
+        e.playerMatch = {};
+        e.side = null;
+
+        // e.playedHeroes = [];
+
+        e.matchRoster.forEach(each=>{
+
+          each.rosterParticipants.forEach(player=>{
+
+            if(player.participantPlayer.data.attributes.name == playerNames){
+              e.playerMatch = player;
+              e.side = each.data.attributes.stats.side;
+              if(each.data.attributes.stats.side == "left/blue"){
+                matches.totalSide.blue += 1;
+                if(player.data.attributes.stats.winner){
+                  matches.scoreDetail.win += 1;
+                }else{
+                  matches.scoreDetail.lose += 1;
+                }
+              }else{
+                matches.totalSide.red += 1;
+                if(player.data.attributes.stats.winner){
+                  matches.scoreDetail.win += 1;
+                }else{
+                  matches.scoreDetail.lose += 1;
+                }
+              }
+
+              matches.playedHeroes.push(player.data.attributes.actor);
+            }
+          })
+        })
+      })
+
+      matches.playedHeroesGrouped = _.groupBy(matches.playedHeroes);
+      // matches.favouriteHeroe = null;
+      matches.listPlayedHeroes = [];
+      Object.keys(matches.playedHeroesGrouped).forEach(function(key) {
+        matches.listPlayedHeroes.push({role: heroes[matches.playedHeroesGrouped[key][0].replace("*", "").replace("*", "").toLowerCase()],hero:matches.playedHeroesGrouped[key][0].replace("*", "").replace("*", ""), totalPlayed: matches.playedHeroesGrouped[key].length })
+        // console.log(key, obj[key]);
+      });
+      matches.listPlayedHeroes = _.orderBy(matches.listPlayedHeroes, ['totalPlayed'], ['desc']);
+      // matches.match.forEach(each)
+      matches.listTotalPlayByRole = [{role:"Jungler", totalPlayed:0},{role:"Captain", totalPlayed:0}, {role:"Carry", totalPlayed:0}];
+      var Jungler = 0;
+      var Captain = 0;
+      var Carry = 0;
+      matches.listPlayedHeroes.forEach(e=>{
+        if(e.role == "Jungler"){
+          Jungler += e.totalPlayed;
+          matches.listTotalPlayByRole[0].totalPlayed = Jungler;
+        }else if(e.role == "Captain"){
+          Captain += e.totalPlayed;
+          matches.listTotalPlayByRole[1].totalPlayed = Captain;
+        }else if(e.role == "Carry"){
+          Carry += e.totalPlayed;
+          matches.listTotalPlayByRole[2].totalPlayed = Carry;
+        }
+      });
+      matches.listPlayedAllHeroes = [];
+      listHeroes.forEach(e=>{
+        var a = _.find(matches.listPlayedHeroes, function(o) {
+          return o.hero.toLowerCase() == e;
+        });
+        if(a != undefined){
+          matches.listPlayedAllHeroes.push({hero:e, totalPlayed: a.totalPlayed});
+        }else{
+          matches.listPlayedAllHeroes.push({hero:e, totalPlayed: 0});
+        }
+      })
+      matches.listPlayedAllHeroes = _.orderBy(matches.listPlayedAllHeroes, ['totalPlayed'], ['desc']);
+      res.send(matches);
+    }).catch((errors) => {
+      console.log(errors);
+    });
+
+});
+
 router.get('/getAllMatch', function(req,res,next){
 
     res.header("Access-Control-Allow-Origin", "*");
