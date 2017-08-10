@@ -28,7 +28,7 @@ const listHeroes = ["ringo", "gwen", "baptiste",
                     "ozo","petal","reim",
                     "rona","taka","adagio",
                     "ardan","catherine","flicker","fortress",
-                    "lance","lyra","phinn", "grace"];
+                    "lance","lyra","phinn", "grace", "reza"];
 
 const heroes = [];
 heroes["ringo"] = "Carry";
@@ -64,6 +64,7 @@ heroes["lance"] = "Captain";
 heroes["lyra"] = "Captain";
 heroes["phinn"] = "Captain";
 heroes["grace"] = "Captain";
+heroes["reza"] = "Jungler";
 
 const vainglory = new Vainglory('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjNDZjMjBiMC1kY2RiLTAxMzQtNWUwMC0wMjQyYWMxMTAwMDQiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNDg3OTUzNTI0LCJwdWIiOiJzZW1jIiwidGl0bGUiOiJ2YWluZ2xvcnkiLCJhcHAiOiJjNDZhNjBmMC1kY2RiLTAxMzQtNWRmZi0wMjQyYWMxMTAwMDQiLCJzY29wZSI6ImNvbW11bml0eSIsImxpbWl0IjoxMH0.WS7uFSYlDnFALFN5CgEY7kYeBQskl1I9qRsmdpNxhH0', options);
 
