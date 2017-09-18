@@ -66,7 +66,7 @@ heroes["phinn"] = "Captain";
 heroes["grace"] = "Captain";
 heroes["reza"] = "Jungler";
 
-const vainglory = new Vainglory('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjNDZjMjBiMC1kY2RiLTAxMzQtNWUwMC0wMjQyYWMxMTAwMDQiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNDg3OTUzNTI0LCJwdWIiOiJzZW1jIiwidGl0bGUiOiJ2YWluZ2xvcnkiLCJhcHAiOiJjNDZhNjBmMC1kY2RiLTAxMzQtNWRmZi0wMjQyYWMxMTAwMDQiLCJzY29wZSI6ImNvbW11bml0eSIsImxpbWl0IjoxMH0.WS7uFSYlDnFALFN5CgEY7kYeBQskl1I9qRsmdpNxhH0', options);
+const vainglory = new Vainglory('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNjgyNjUyMC03ZTljLTAxMzUtNjRiYS0zNjdmN2QwZjllMWQiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTA1NzM4MjYyLCJwdWIiOiJzZW1jIiwidGl0bGUiOiJ2YWluZ2xvcnkiLCJhcHAiOiJjNDZhNjBmMC1kY2RiLTAxMzQtNWRmZi0wMjQyYWMxMTAwMDQiLCJzY29wZSI6ImNvbW11bml0eSIsImxpbWl0IjoxMDB9.qGKhfB4Ak_lk1M1po0oPaF1EQxdNSOGhDEkgsP2V1N8', options);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -74,7 +74,7 @@ router.get('/', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     // Set the headers
-  AUTH_STRING = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjNDZjMjBiMC1kY2RiLTAxMzQtNWUwMC0wMjQyYWMxMTAwMDQiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNDg3OTUzNTI0LCJwdWIiOiJzZW1jIiwidGl0bGUiOiJ2YWluZ2xvcnkiLCJhcHAiOiJjNDZhNjBmMC1kY2RiLTAxMzQtNWRmZi0wMjQyYWMxMTAwMDQiLCJzY29wZSI6ImNvbW11bml0eSIsImxpbWl0IjoxMH0.WS7uFSYlDnFALFN5CgEY7kYeBQskl1I9qRsmdpNxhH0";
+  AUTH_STRING = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNjgyNjUyMC03ZTljLTAxMzUtNjRiYS0zNjdmN2QwZjllMWQiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTA1NzM4MjYyLCJwdWIiOiJzZW1jIiwidGl0bGUiOiJ2YWluZ2xvcnkiLCJhcHAiOiJjNDZhNjBmMC1kY2RiLTAxMzQtNWRmZi0wMjQyYWMxMTAwMDQiLCJzY29wZSI6ImNvbW11bml0eSIsImxpbWl0IjoxMDB9.qGKhfB4Ak_lk1M1po0oPaF1EQxdNSOGhDEkgsP2V1N8";
   const headers = {
       'Accept':       'application/vnd.api+json',
       'Content-Type': 'application/json',
