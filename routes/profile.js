@@ -28,7 +28,7 @@ const listHeroes = ["ringo", "gwen", "baptiste",
                     "ozo","petal","reim",
                     "rona","taka","adagio",
                     "ardan","catherine","flicker","fortress",
-                    "lance","lyra","phinn", "grace", "reza"];
+                    "lance","lyra","phinn", "grace", "reza", "curnwalker"];
 
 const heroes = [];
 heroes["ringo"] = "Carry";
@@ -138,7 +138,10 @@ router.get('/getAllMatchByPlayerName/:ign/:server', function(req,res,next){
     const playerNames = [req.params.ign];
     const server = [req.params.server];
     var now = new Date();
-    var minus3Hours = new Date(new Date() * 1 - 1000 * 3600 * 368);
+    const minus28days = new Date();
+    minus28days.setDate(now.getDate() - 28);
+    // ;
+    // var minus3Hours = new Date(new Date() * 1 - 1000 * 3600 * 368);
 
     /* defaults */
     var queryOptions = {
@@ -148,7 +151,7 @@ router.get('/getAllMatchByPlayerName/:ign/:server', function(req,res,next){
       },
       sort: '-createdAt', // -createdAt for reverse
       filter: {
-        'createdAt-start': minus3Hours.toISOString(), // ISO Date
+        'createdAt-start': minus28days.toISOString(), // ISO Date
         'createdAt-end': now.toISOString(), // ISO Date
         playerNames: [playerNames],
         teamNames: [],
